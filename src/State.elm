@@ -1,6 +1,7 @@
 module State exposing (update, subscriptions)
 
 import Array
+import Ast.Tokens
 import Data.Model exposing (Model)
 import Messages exposing (Msg(..), MoveCursor(..))
 
@@ -36,7 +37,7 @@ updatePure msg model =
         numberOfTokens =
             case maybeLine of
                 Just line ->
-                    3
+                    Ast.Tokens.length line
 
                 Nothing ->
                     0
@@ -91,7 +92,7 @@ moveCursor msg cursor numberOfLines numberOfTokens =
         Right ->
             case cursor of
                 line :: token :: rest ->
-                    if token < numberOfTokens then
+                    if token < numberOfTokens - 1 then
                         [ line, token + 1 ] ++ rest
                     else
                         [ line, token ] ++ rest

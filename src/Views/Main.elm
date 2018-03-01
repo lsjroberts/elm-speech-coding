@@ -66,9 +66,7 @@ view model =
                 [ Attrs.width (Attrs.percent 80)
                 , Attrs.spacing 16
                 ]
-                [ text ("Node: " ++ cursorNode model.ast model.cursor)
-                , viewAst model.cursor model.ast
-                  -- , text (Ast.Stringify.stringify model.ast)
+                [ viewAst model.cursor model.ast
                 ]
             , column None
                 [ Attrs.padding 32 ]
@@ -121,7 +119,7 @@ viewLine cursor index line =
                 [] ->
                     0
 
-        rest =
+        restCursor =
             case List.tail cursor of
                 Just t ->
                     t
@@ -133,7 +131,7 @@ viewLine cursor index line =
             [ Attrs.padding 16
             , Attrs.vary Highlighted (cursorLineNumber == index)
             ]
-            (viewStatement rest (cursorLineNumber == index) line)
+            (viewStatement restCursor (cursorLineNumber == index) line)
 
 
 viewStatement : List Int -> Bool -> Statement -> Element Styles Variations msg
